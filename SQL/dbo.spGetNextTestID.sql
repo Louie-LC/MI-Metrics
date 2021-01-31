@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE [dbo].[spGetNextTestID]
+AS 
+BEGIN
+	SET NOCOUNT ON
+    SELECT NEXT VALUE FOR dbo.seqTestID;
+END

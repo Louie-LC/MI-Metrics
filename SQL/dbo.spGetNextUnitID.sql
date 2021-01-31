@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE dbo.spGetNextUnitID	 
+AS 
+BEGIN
+	SET NOCOUNT ON
+    SELECT NEXT VALUE FOR dbo.seqUnitID;
+END

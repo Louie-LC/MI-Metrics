@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE [dbo].[spGetNextTagID]
+AS 
+BEGIN
+	SET NOCOUNT ON
+    SELECT NEXT VALUE FOR dbo.seqTagID;
+END
