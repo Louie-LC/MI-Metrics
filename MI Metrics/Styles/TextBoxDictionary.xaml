@@ -1,0 +1,260 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MI_Metrics.Styles"
+                    xmlns:sm="clr-namespace:MI_Metrics">
+
+    <Storyboard x:Key="TextBoxSelected" >
+        <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="TextContent" Storyboard.TargetProperty="Margin">
+            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="8,8,8,8"/>
+            <SplineThicknessKeyFrame KeyTime="00:00:00.15" Value="8,4,8,4"/>
+        </ThicknessAnimationUsingKeyFrames>
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="TextContent" Storyboard.TargetProperty="Height" To="32" Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="TextBoxBorder" Storyboard.TargetProperty="Height" To="16" Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="TextBoxGrid" Storyboard.TargetProperty="Height" To="16" Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="InputLabel" Storyboard.TargetProperty="FontSize" To="10" Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="MandatoryStar" Storyboard.TargetProperty="FontSize" To="10" Duration="00:00:00.15"/>
+        
+        <!--<DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="border" Storyboard.TargetProperty="FontSize" To="10" Duration="00:00:00.15"/>-->
+    </Storyboard>
+
+    <Storyboard x:Key="TextBoxUnSelected" >
+        <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                      Storyboard.TargetName="TextContent"
+                                                      Storyboard.TargetProperty="Margin">
+            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="8,4,8,4"/>
+            <SplineThicknessKeyFrame KeyTime="00:00:00.15" Value="8,8,8,8"/>
+        </ThicknessAnimationUsingKeyFrames>
+        <DoubleAnimation BeginTime="00:00:00"
+                                     Storyboard.TargetName="TextContent"
+                                     Storyboard.TargetProperty="Height"
+                                     To="24"
+                                     Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00"
+                                     Storyboard.TargetName="TextBoxBorder"
+                                     Storyboard.TargetProperty="Height"
+                                     To="24"
+                                     Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00"
+                                     Storyboard.TargetName="TextBoxGrid"
+                                     Storyboard.TargetProperty="Height"
+                                     To="24"
+                                     Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00"
+                                     Storyboard.TargetName="InputLabel"
+                                     Storyboard.TargetProperty="FontSize"
+                                     To="14"
+                                     Duration="00:00:00.15"/>
+        <DoubleAnimation BeginTime="00:00:00"
+                                     Storyboard.TargetName="MandatoryStar"
+                                     Storyboard.TargetProperty="FontSize"
+                                     To="14"
+                                     Duration="00:00:00.15"/>
+    </Storyboard>
+    
+    <Storyboard x:Key="TextBoxHover">
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="templateBackground" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0.1" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <Storyboard x:Key="TextBoxUnHover">
+        <DoubleAnimation BeginTime="00:00:00" Storyboard.TargetName="templateBackground" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0.05" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <ControlTemplate x:Key="FancyTextBox" TargetType="{x:Type TextBox}">
+        <Grid Width="{TemplateBinding Width}" Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Background for the main portion of the template-->
+            <Border Grid.Row="0" x:Name="templateBackground" Width="{TemplateBinding Width}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource UI1}" Opacity=".05"/>
+                </Border.Background>
+            </Border>
+            
+            <!--Black underline for the textbox-->
+            <Border Grid.Row="0" x:Name="border" BorderThickness="0,0,0,1">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{StaticResource UI1}" Opacity=".2"/>
+                </Border.BorderBrush>
+            </Border>
+
+            <!--Content of the template-->
+            <Grid Grid.Row="0" x:Name="TextContent" Height="24" Background="Transparent" Margin="8,8,8,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="TextBoxBorder" Height="24" 
+                        BorderThickness="0"
+                        Background="Transparent"
+                        SnapsToDevicePixels="True"
+                        VerticalAlignment="Bottom">
+                    <ScrollViewer x:Name="PART_ContentHost"
+                                  Focusable="False"
+                                  VerticalAlignment="Center"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Hidden"/>
+                </Border>
+                <Grid Grid.Column="0"
+                      x:Name="TextBoxGrid"
+                      VerticalAlignment="Top"
+                      Height="24"
+                      HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="InputLabel"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="{TemplateBinding sm:TextBoxHelper.Text}"
+                               Background="Transparent"
+                               Opacity=".6"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               FontSize="14"
+                               IsHitTestVisible="False"
+                               Focusable="False"/>
+                    <TextBlock Grid.Column="1" x:Name="MandatoryStar" VerticalAlignment="Center" Text=" * " Background="Transparent" FontSize="14" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{StaticResource FunctionalRed}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Grid>
+                
+                <!--Icon container-->
+                <Grid Grid.Column="1" x:Name="IconGrid" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="8"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Error icon-->
+                    <Grid Grid.Column="1" x:Name="ErrorIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                        <Ellipse Width="16" Height="16">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{StaticResource FunctionalRed}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="72" UriSource="pack://application:,,,/Images/UI/WhiteCloseIcon.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+
+                    <!--Safety Icon-->
+                    <Grid Grid.Column="1" x:Name="SafetyIcon" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                        <Ellipse Width="16" Height="16">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{StaticResource FunctionalYellow}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="72" UriSource="pack://application:,,,/Images/UI/WhiteWarningIcon.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+
+                    <!--Success Icon-->
+                    <Grid Grid.Column="1" x:Name="SuccessIcon" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Hidden">
+                        <Ellipse Width="16" Height="16">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{StaticResource FunctionalGreen}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="72" UriSource="pack://application:,,,/Images/UI/WhiteCheckmark.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" Height="20" x:Name="HintTextGrid" Visibility="Collapsed">
+                <TextBlock Grid.Row="1" x:Name="HintText" Margin="8,4,0,0" Text="{TemplateBinding sm:TextBoxHelper.Hint}" Style="{StaticResource Body2Font}">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </Grid>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="TextBoxBorder" Value="0.56"/>
+            </Trigger>
+            
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsFocused" Value="False"/>
+                    <Condition Property="Text" Value=""/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource TextBoxUnSelected}"/>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource TextBoxSelected}"/>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource TextBoxHover}"/>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource TextBoxUnHover}"/>
+                </Trigger.ExitActions>
+            </Trigger>
+
+            
+            <!--Custom Property Triggers-->
+            <Trigger Property="sm:TextBoxHelper.Mandatory" Value="True">
+                <Setter TargetName="MandatoryStar" Property="Visibility" Value="Visible"/>
+            </Trigger>
+
+            <Trigger Property="sm:TextBoxHelper.Safety" Value="True">
+                <Setter TargetName="SafetyIcon" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="IconGrid" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="border" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource FunctionalYellow}" Opacity="1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="sm:TextBoxHelper.Error" Value="True">
+                <Setter TargetName="ErrorIcon" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="IconGrid" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="border" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource FunctionalRed}" Opacity="1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="sm:TextBoxHelper.Success" Value="True">
+                <Setter TargetName="SuccessIcon" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="IconGrid" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="border" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource FunctionalGreen}" Opacity="1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="sm:TextBoxHelper.HintTextVisible" Value="True">
+                <Setter TargetName="HintTextGrid" Property="Visibility" Value="Visible"/>
+            </Trigger>
+
+            
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

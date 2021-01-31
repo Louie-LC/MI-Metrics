@@ -1,0 +1,279 @@
+﻿<Page x:Class="MI_Metrics.ViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MI_Metrics"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1050"
+      Title="Metrics">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{StaticResource Base1}"/>
+        </Grid.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="16"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="1" Grid.Column="1" Effect="{StaticResource Navigation}">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource Base0}"/>
+                </Border.Background>
+            </Border>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="16"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="16"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="SearchBar" Style="{StaticResource SearchBar}" local:TextBoxHelper.Text="Search" ButtonBase.Click="SearchBoxButton_Click" KeyUp="SearchBar_KeyUp"/>
+
+                    <!--The tag filter row-->
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--The DHR count stack panel-->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <!--The text block displaying the DHR count-->
+                            <TextBlock Style="{StaticResource Body1Font}" Text="{Binding DeviceHistoryRecordView.Count}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <!--The word "DHR"-->
+                            <TextBlock Style="{StaticResource Body1Font}" Text=" DHR" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <!--The letter S for pluralizing the acronym DHR-->
+                            <TextBlock Text="s" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body1Font}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DeviceHistoryRecordView.Count, Converter={x:Static local:NonOneConverter.Instance}}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DeviceHistoryRecordView.Count, Converter={x:Static local:NonOneConverter.Instance}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <!--The dot that seperates the text from the list of selected tags.-->
+                            <TextBlock Text=" &#x00B7;" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Body1Font}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedTags.Count, Converter={x:Static local:NonZeroConverter.Instance}}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SelectedTags.Count, Converter={x:Static local:NonZeroConverter.Instance}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!--The control for displaying the selected tags-->
+                        <ItemsControl Grid.Column="2" ItemsSource="{Binding SelectedTags}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" IsItemsHost="True" HorizontalAlignment="Left"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="RemoveSelectedTagButton"  Style="{StaticResource FilterButton}" Margin="0,0,8,0" Height="32" MinWidth="80" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource Body1Font}" Margin="0,0,8,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <Button Style="{StaticResource CloseFilterButton}" Width="24" Height="32" Tag="{Binding}" Click="RemoveSelectedTagButton_Click">
+                                                <Grid>
+                                                    <Border Width="24" Height="32" Background="Transparent"/>
+                                                    <Line X1="0" Y1="0" X2="8" Y2="8" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <Line X1="0" Y1="8" X2="8" Y2="0" Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Button>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--The filter data button-->
+                        <Grid  Grid.Column="4">
+                            <Button x:Name="FilterButton" Width="40" Height="40" Tag="pack://application:,,,/Images/UI/FilterIcon.png" Click="FilterButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AdjustableIconButton}"/>
+                                </Button.Style>
+                            </Button>
+                            <Grid Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedTags.Count, Converter={x:Static local:NonZeroConverter.Instance}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SelectedTags.Count, Converter={x:Static local:NonZeroConverter.Instance}}" Value="False">
+                                                <Setter Property="Visibility" Value="Hidden"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Ellipse Width="16" Height="16">
+                                    <Ellipse.Fill>
+                                        <SolidColorBrush Color="{StaticResource UI0}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <TextBlock Style="{StaticResource Title2Font}" Foreground="White" Text="{Binding SelectedTags.Count, Converter={x:Static local:GreaterThanNineConverter.Instance}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+
+                        <!--The popup that shows when the filter button is pressed-->
+                        <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" Placement="Left" VerticalOffset="48" IsOpen="False" StaysOpen="False" AllowsTransparency="True">
+                            <Grid Margin="16">
+                                <Border BorderThickness="0" Effect="{StaticResource OverlayUpper}">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{StaticResource Base0}"/>
+                                    </Border.Background>
+                                </Border>
+                                <Border x:Name="Border" BorderThickness="0" Effect="{StaticResource OverlayLower}">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{StaticResource Base0}"/>
+                                    </Border.Background>
+                                </Border>
+                                <Grid MaxWidth="400">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="16"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="16"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="16"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="16"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Style="{StaticResource Header2Font}" Text="Filter"/>
+
+                                    <ScrollViewer Grid.Row="3" Grid.Column="1" VerticalScrollBarVisibility="Auto" Focusable="False">
+                                        <ItemsControl ItemsSource="{Binding Path=TagView}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel IsItemsHost="True" Focusable="False"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Button x:Name="AddTagButton" Tag="{Binding}" Style="{StaticResource FilterButton}" MinWidth="56" Height="32" Margin="8,0,0,8" Click="AddTagButton_Click">
+                                                        <TextBlock Text="{Binding Description}" Style="{StaticResource Body1Font}"/>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+                                    <Button x:Name="ClearAllFiltersButton" Grid.Row="5" Grid.Column="1" Width="96" Content="Clear All" Style="{StaticResource ButtonSecondary}" HorizontalAlignment="Right" Click="ClearAllFiltersButton_Click"/>
+                                </Grid>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+
+                    <!--The datagrid for all test results-->
+                    <DataGrid x:Name="MetricsDataGrid" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding DeviceHistoryRecordView}" Style="{StaticResource DataGrid}" RowStyle="{StaticResource DataGridRow}" SelectionMode="Single" HeadersVisibility="Column" CanUserAddRows="False" AutoGenerateColumns="False" IsReadOnly="True" VerticalScrollBarVisibility="Visible">
+                        <DataGrid.Resources>
+                            <DataTemplate x:Key="TestResultGrid">
+                                <ItemsControl ItemsSource="{Binding TestResults}" DisplayMemberPath="Value">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="200">
+                                                <TextBlock  Text="{Binding Value.Value}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:d}}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="Auto" MinWidth="100"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding UnitDescription}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" MinWidth="240"/>
+                            <DataGridTextColumn Header="System ID" Binding="{Binding FullDescription}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="*" MinWidth="240"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--Bottom controls-->
+                    <Grid Grid.Row="6" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker x:Name="StartDatePicker" Grid.Column="0" Tag="Start Date" Loaded="DatePicker_Loaded" SelectedDateChanged="StartDatePicker_SelectedDateChanged" SelectedDate="{Binding SearchStartDate}" ButtonBase.Click="DatePicker_Click"/>
+                        <DatePicker x:Name="EndDatePicker" Grid.Column="2" Tag="End Date" Loaded="DatePicker_Loaded" SelectedDateChanged="EndDatePicker_SelectedDateChanged" SelectedDate="{Binding SearchEndDate}" ButtonBase.Click="DatePicker_Click"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

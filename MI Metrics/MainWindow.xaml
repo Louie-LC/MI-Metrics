@@ -1,0 +1,77 @@
+﻿<Window x:Class="MI_Metrics.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MI_Metrics"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1050">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Page Header -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource Base0}"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="16"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="1" Grid.Column="1" Height="32" Width="160"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage DecodePixelHeight="150" UriSource="pack://application:,,,/Images/logo_rgb_2x_l.png"/>
+                </Image.Source>
+            </Image>
+
+            <!-- Program Name -->
+            <TextBlock Grid.Row ="1" Grid.Column="3"
+                       Style="{StaticResource SuperHeader}"
+                       Foreground="{StaticResource FontPrimary}"
+                       VerticalAlignment="Center"
+                       Text="Performance Metrics"/>
+
+            <!--Main navigation grid-->
+            <Grid Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" x:Name="NavigationSelectSystem" Height="72" Style="{StaticResource TextIconButton}" Tag="pack://application:,,,/MI Metrics;component/Images/UI/ScannerIcon.png" Content="System Overview" Click="NavigationSelectSystem_Click"/>
+                <Button Grid.Column="1" x:Name="NavigationViewData" Height="72" Style="{StaticResource TextIconButton}" IsEnabled="False" Tag="pack://application:,,,/MI Metrics;component/Images/UI/DataIcon.png" Content="View Data" Click="NavigationViewData_Click"/>
+                <Button Grid.Column="2" x:Name="NavigationUploadData" Height="72" Style="{StaticResource TextIconButton}" Tag="pack://application:,,,/MI Metrics;component/Images/UI/DatabaseIcon.png" Content="Upload Data" Click="NavigationUploadData_Click"/>
+                <Button Grid.Column="3" x:Name="NavigationOrganizeData" Height="72" Style="{StaticResource TextIconButton}" Tag="pack://application:,,,/MI Metrics;component/Images/UI/ComputerIcon.png" Content="Organize Data" Click="NavigationOrganizeData_Click"/>
+                <Button Grid.Column="4" x:Name="NavigationManageTemplate" Height="72" Style="{StaticResource TextIconButton}" Tag="pack://application:,,,/MI Metrics;component/Images/UI/FileIcon.png" Content="Manage Templates" Click="NavigationManageTemplate_Click"/>
+
+            </Grid>
+
+        </Grid>
+
+        <Frame Grid.Row="1" x:Name="WindowFrame" NavigationUIVisibility="Hidden"/>
+    </Grid>
+
+</Window>

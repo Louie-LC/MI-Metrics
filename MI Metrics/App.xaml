@@ -1,0 +1,33 @@
+﻿<Application x:Class="MI_Metrics.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MI_Metrics"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles\StandardDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ExpandContractButtons.xaml"/>
+                <ResourceDictionary Source="Styles\TextBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\RoundButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ExtendedButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ExpanderDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ToggleButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ComboBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\TabDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\DataGridDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ContextMenuDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\TooltipDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\ScrollBarDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\CheckBox.xaml"/>
+                <ResourceDictionary Source="Styles\SearchBoxDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\FilterButtonDictionary.xaml"/>
+                <ResourceDictionary Source="Styles\CalendarDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+        
+
+    </Application.Resources>
+</Application>

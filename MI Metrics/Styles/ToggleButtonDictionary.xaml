@@ -1,0 +1,90 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MI_Metrics.Styles">
+    <Storyboard x:Key="ToggleOn" Timeline.DesiredFrameRate="60">
+        <DoubleAnimation Storyboard.TargetName="EllipseSliderGrid" Storyboard.TargetProperty="(Width)" To="36" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotLight" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="1" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotDark" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="0" Duration="00:00:00.15"/>
+
+        <DoubleAnimation Storyboard.TargetName="DarkBorder" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="OrangeBorder" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="1" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <Storyboard x:Key="ToggleOff" Timeline.DesiredFrameRate="60">
+        <DoubleAnimation Storyboard.TargetName="EllipseSliderGrid" Storyboard.TargetProperty="(Width)" To="18" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotLight" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="0" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotDark" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="0.6" Duration="00:00:00.15"/>
+
+        <DoubleAnimation Storyboard.TargetName="DarkBorder" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0.4" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="OrangeBorder" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <Storyboard x:Key="ToggleIdle" Timeline.DesiredFrameRate="60">
+        <ColorAnimation Storyboard.TargetName="OrangeBorder" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource UI2}" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotDark" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="0.6" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="DarkBorder" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0.4" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <Storyboard x:Key="ToggleHover" Timeline.DesiredFrameRate="60">
+        <ColorAnimation Storyboard.TargetName="OrangeBorder" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource UI3}" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="ToggleDotDark" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Opacity)" To="0.9" Duration="00:00:00.15"/>
+        <DoubleAnimation Storyboard.TargetName="DarkBorder" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0.6" Duration="00:00:00.15"/>
+    </Storyboard>
+
+    <ControlTemplate x:Key="ToggleButtonControlTemplate" TargetType="{x:Type ToggleButton}">
+
+        <Grid Width="40" Height="20">
+            <Border x:Name="DarkBorder" Height ="20" Width="40" CornerRadius="10" BorderThickness="2" Background="Transparent">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.4"/>
+                </Border.BorderBrush>
+            </Border>
+            <Border x:Name="OrangeBorder" Height ="20" Width="40" CornerRadius="10">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource UI2}" Opacity="0"/>
+                </Border.Background>
+
+            </Border>
+
+            <!--Changing the width of this grid is what animates the movement of the ellipse inside-->
+            <Grid x:Name="EllipseSliderGrid" Height="20" Width="18" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <Ellipse x:Name="ToggleDotDark" Height="14" Width="14" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.6"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Ellipse x:Name="ToggleDotLight" Height="14" Width="14" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="White" Opacity="0"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+            </Grid>
+        </Grid>
+
+        
+        <ControlTemplate.Triggers>
+
+            <Trigger Property="IsChecked" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ToggleOn}"/>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource ToggleOff}"/>
+                </Trigger.ExitActions>
+
+            </Trigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ToggleHover}"/>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource ToggleIdle}"/>
+                </Trigger.ExitActions>
+            </Trigger>
+
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

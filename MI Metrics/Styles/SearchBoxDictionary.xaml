@@ -1,0 +1,150 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MI_Metrics">
+
+    <ControlTemplate x:Key="DeleteButton" TargetType="{x:Type Button}">
+        <Grid Background="Transparent">
+            <Image Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage DecodePixelWidth="32" UriSource="pack://application:,,,/Images/UI/CloseIcon.png"/>
+                </Image.Source>
+            </Image>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="SearchBoxTemplate" TargetType="{x:Type TextBox}">
+        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <!--Search box-->
+            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" Focusable="False" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+            </Border>
+
+            <!--Default Search Box Text-->
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0"
+                       Text="Search"
+                       FontFamily="{TemplateBinding FontFamily}"
+                       FontWeight="{TemplateBinding FontWeight}"
+                       FontSize="{TemplateBinding FontSize}"
+                       Opacity=".6"
+                       IsHitTestVisible="False"
+                       Focusable="False"
+                       x:Name="DefaultMessage"
+                       Visibility="Hidden"/>
+            <!--Delete Icon-->
+
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Text" Value="">
+                <Setter TargetName="DefaultMessage" Property="Visibility" Value="Visible"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" TargetName="border" Value="#FF7EB4EA"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="BorderBrush" TargetName="border" Value="#FF569DE5"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--The search bar has two buttons in its template: SearchButton and ClearButton
+    The events for these two button clicks cannot be handled in this dictionary.
+    A TextBox that uses this search bar will have to listen for
+    the routed event Button.Click and then examine the names
+    of the original source to figure out which button was clicked.-->
+    <Style x:Key="SearchBar" TargetType="{x:Type TextBox}">
+        <Setter Property="FontFamily" Value="Siemens Sans"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.9"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <Border x:Name="Border" BorderThickness="0,0,0,1" CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.2"/>
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="{StaticResource UI1}" Opacity="0.05"/>
+                            </Border.Background>
+                        </Border>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="8"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="SearchButton" Grid.Row="1" Grid.Column="1" Width="24" Height="24" Tag="pack://application:,,,/Images/UI/SearchIcon.png">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AdjustableIconButton}">
+                                        <Style.Triggers>
+                                            <EventTrigger RoutedEvent="Click"/>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <TextBlock x:Name="PlaceHolderText" Grid.Row="1" Grid.Column="3" Text="{TemplateBinding local:TextBoxHelper.Text}" Margin="1,0,0,0" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
+                            <ScrollViewer x:Name="PART_ContentHost" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Button x:Name="ClearButton" Grid.Row="1" Grid.Column="5" Width="24" Height="24" Style="{StaticResource AdjustableIconButton}" Tag="pack://application:,,,/Images/UI/CloseIcon.png"/>
+
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0.05" Duration="00:00:00.15"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)" To="0.1" Duration="00:00:00.15"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Unfocused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0.2" Duration="00:00:00.15"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Opacity)" To="0.6" Duration="00:00:00.15"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                                
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="ClearButton" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="PlaceHolderText" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

@@ -1,0 +1,318 @@
+﻿<Page x:Class="MI_Metrics.OrganizePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MI_Metrics"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Organize Data">
+
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{StaticResource Base1}"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource Base2}"/>
+            </Border.Background>
+        </Border>
+
+        <TabControl Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Style="{StaticResource TabControl}">
+
+            <!--The tab for managing tests-->
+            <TabItem Header="Tests" Style="{StaticResource Tab}" Height="56">
+                <!--The grid that creates the white section where the main content is placed-->
+                <Grid>
+                    <Grid.Background>
+                        <SolidColorBrush Color="{StaticResource Base1}"/>
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--White background with dropshadow effect-->
+                    <Border Grid.Row="1" Grid.Column="1" Effect="{StaticResource Navigation}">
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource Base0}"/>
+                        </Border.Background>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                        <!--The grid that keeps the test form centered and adds a margin-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="16"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!--The combobox for selecting a product-->
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Text="System Selection" Style="{StaticResource Title1Font}" Margin="0,0,0,8"/>
+                                    <ComboBox x:Name="TestProductSelectBox" Tag="Select System" Style="{StaticResource ComboBoxStyle}" ItemsSource="{Binding ProductView}" DisplayMemberPath="Name" SelectionChanged="TestProductSelectBox_SelectionChanged"/>
+                                </StackPanel>
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Test Information"  Style="{StaticResource Title1Font}"/>
+                                    <TextBox Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" x:Name="TestNameTextBox" local:TextBoxHelper.Mandatory="True" local:TextBoxHelper.Text="Name"  MaxLength="50" Template="{StaticResource FancyTextBox}" Style="{StaticResource SmallTextBoxFont}" TextChanged="TestNameTextBox_TextChanged" PreviewTextInput="TestNameTextBox_PreviewTextInput" DataObject.Pasting="TestNameTextBox_Pasting" KeyUp="TestNameTextBox_KeyUp" GotKeyboardFocus="TextBox_GotKeyboardFocus" LostKeyboardFocus="TextBox_LostKeyboardFocus"/>
+
+                                    <!--Grid containing the buttons for handling tests-->
+                                    <Grid Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Height="40">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="8"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0" x:Name="ClearTestButton" Content="Clear" Width="96" Style="{StaticResource ButtonTertiary}" Click="ClearTestButton_Click"/>
+                                        <Button Grid.Column="2" x:Name="SubmitTestButton" Content="Submit" Width="96" Style="{StaticResource ButtonPrimary}" IsEnabled="False" Click="SubmitTestButton_Click"/>
+                                        <Button Grid.Column="2" x:Name="UpdateTestButton" Content="Update" Width="96" Style="{StaticResource ButtonSecondary}" Visibility="Hidden" Click="UpdateTestButton_Click"/>
+                                    </Grid>
+                                </Grid>
+
+                                <!--The section for selecting a test-->
+                                <StackPanel Grid.Row="4">
+                                    <DataGrid x:Name="ProductTestGrid" ItemsSource="{Binding TestView}" Style="{DynamicResource DataGrid}" RowStyle="{StaticResource DataGridRow}" Height="240" Margin="0,0,0,8" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="ProductTestGrid_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Tracked Tests" Binding="{Binding Name}" Width="*" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Button Grid.Column="2" x:Name="DeleteTestButton" Content="Delete Test" Width="96" Style="{StaticResource ButtonPrimary}" HorizontalAlignment="Right" IsEnabled="False"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!--Unit management tab item-->
+            <TabItem Style="{StaticResource Tab}" Height="56" Header="Manage Units">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="1" Grid.Column="1" Effect="{StaticResource Navigation}">
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource Base0}"/>
+                        </Border.Background>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                            </Grid.ColumnDefinitions>
+                            <!--Left portion of the screen, where unit information is entered-->
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="16"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!--Product select section-->
+                                <TextBlock Grid.Row="1" Style="{StaticResource Title1Font}" Text="System Select"/>
+                                <ComboBox x:Name="UnitProductSelectBox" Grid.Row="3" Style="{StaticResource ComboBoxStyle}" Tag="Select System" ItemsSource="{Binding ProductView}" DisplayMemberPath="Name" SelectionChanged="MainProductSelectBox_SelectionChanged"/>
+
+                                <!--Unit information-->
+                                <TextBlock Grid.Row="5" Style="{StaticResource Title1Font}" Text="Unit Management"/>
+                                <TextBox x:Name="UnitPartNumberBox" Grid.Row="7" MaxLength="18" Template="{StaticResource FancyTextBox}" Style="{StaticResource SmallTextBoxFont}" local:TextBoxHelper.Text="Part Number" local:TextBoxHelper.Mandatory="True" local:TextBoxHelper.Success="False" local:TextBoxHelper.Error="True" PreviewTextInput="UnitPartNumberBox_PreviewTextInput" TextChanged="UnitPartNumberBox_TextChanged" DataObject.Pasting="UnitPartNumberBox_Pasting" KeyUp="UnitTextBox_KeyUp"/>
+                                <TextBox x:Name="UnitDescriptionBox" Grid.Row="9" MaxLength="100" Template="{StaticResource FancyTextBox}" Style="{StaticResource SmallTextBoxFont}" local:TextBoxHelper.Text="Description" local:TextBoxHelper.Mandatory="True" local:TextBoxHelper.Success="False" local:TextBoxHelper.Error="True" PreviewTextInput="UnitDescriptionBox_PreviewTextInput" TextChanged="UnitDescriptionBox_TextChanged" DataObject.Pasting="UnitDescriptionBox_Pasting" KeyUp="UnitTextBox_KeyUp"/>
+
+                                <!--Unit button grid-->
+                                <Grid Grid.Row="11">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="UpdateUnitButton" Grid.Column="0" Style="{StaticResource ButtonSecondary}" Width="96" Content="Update" IsEnabled="False" Visibility="Hidden" Click="UpdateUnitButton_Click"/>
+                                    <Button x:Name="SubmitUnitButton" Grid.Column="0" Style="{StaticResource ButtonPrimary}" Width="96" Content="Submit" IsEnabled="False" Click="SubmitUnitButton_Click"/>
+                                    <Button x:Name="ClearUnitButton" Grid.Column="2" Style="{StaticResource ButtonTertiary}" Width="96" Content="Clear" HorizontalAlignment="Left" Click="ClearUnitButton_Click"/>
+                                </Grid>
+                            </Grid>
+
+                            <!--Right half of the screen, where the unit grid is displayed--> 
+                            <Grid Grid.Column="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="16"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="16"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="1" Style="{StaticResource Title1Font}" Text="Units"/>
+                                <DataGrid x:Name="UnitManagerDataGrid" Grid.Row="3" ItemsSource="{Binding UnitView}" Style="{StaticResource DataGrid}" RowStyle="{StaticResource DataGridRow}" Height="480" VerticalAlignment="Top" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionChanged="UnitManagerDataGrid_SelectionChanged" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Part Number" Binding="{Binding PartNumber}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="Auto"/>
+                                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <Button x:Name="DeleteUnitButton" Grid.Row="5" Width="96" Style="{StaticResource ButtonPrimary}" HorizontalAlignment="Right" Content="Delete Unit"/>
+                            </Grid>
+                        </Grid>
+                        
+                        
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            
+            <!--Tag management tab item-->
+            <TabItem Style="{StaticResource Tab}" Height="56" Header="Manage Tags">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="16"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="1" Grid.Column="1"  Effect="{StaticResource Navigation}">
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource Base0}"/>
+                        </Border.Background>
+                    </Border>
+                    
+                    <!--The main content grid-->
+                    <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="16"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <TextBlock Text="System Select" Style="{StaticResource Title1Font}" Grid.Row="1" Grid.Column="1"/>
+                            <ComboBox x:Name="TagProductSelectBox" Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" ItemsSource="{Binding ProductView}" DisplayMemberPath="Name" Tag="Select System" SelectionChanged="ProductSelectBox_SelectionChanged"/>
+                            <TextBlock Text="Unit Select" Style="{StaticResource Title1Font}" Grid.Row="5" Grid.Column="1"/>
+                            <!--Unit data grid-->
+                            <DataGrid x:Name="UnitDataGrid" Grid.Row="7" Grid.Column="1" ItemsSource="{Binding UnitView}" Style="{StaticResource DataGrid}" RowStyle="{StaticResource DataGridRow}" Height="480" VerticalAlignment="Top" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionChanged="UnitDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Part Number" Binding="{Binding PartNumber}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="Auto"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+
+                            <TextBlock Text="Tag Information" Style="{StaticResource Title1Font}" Grid.Row="1" Grid.Column="3"/>
+                            <!--Tag information input controls-->
+                            <Grid Grid.Row="3" Grid.Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="TagDescriptionBox" Grid.Column="0" Style="{StaticResource SmallTextBoxFont}"  Template="{StaticResource FancyTextBox}" MaxLength="20" local:TextBoxHelper.Mandatory="True" local:TextBoxHelper.Text="Tag Description" local:TextBoxHelper.Error="True" local:TextBoxHelper.Success="False" PreviewTextInput="TagNameBox_PreviewTextInput" DataObject.Pasting="TagNameBox_Pasting" TextChanged="TagNameBox_TextChanged" KeyUp="TagNameBox_KeyUp"/>
+                                <Button x:Name="ClearTagButton" Grid.Column="2" Style="{StaticResource ButtonTertiary}" Width="96" Content="Clear" Click="ClearTagButton_Click"/>
+                                <Button x:Name="UpdateTagButton" Grid.Column="4" Style="{StaticResource ButtonSecondary}" Width="96" Content="Update" Visibility="Hidden" Click="UpdateTagButton_Click"/>
+                                <Button x:Name="SubmitTagButton" Grid.Column="4" Style="{StaticResource ButtonPrimary}" Width="96" Content="Submit" IsEnabled="False" Click="SubmitTagButton_Click"/>
+                            </Grid>
+                            <TextBlock Text="Tag Assignment" Style="{StaticResource Title1Font}" Grid.Row="5" Grid.Column="3"/>
+
+                            <!--Tag data grid-->
+                            <DataGrid x:Name="TagDataGrid" Grid.Row="7" Grid.Column="3" ItemsSource="{Binding TagView}" Style="{StaticResource DataGrid}" RowStyle="{StaticResource DataGridRow}" Height="480" VerticalAlignment="Top" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="Single" SelectionChanged="TagDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{StaticResource TextGridElement}" Width="*" IsReadOnly="True"/>
+                                    <DataGridCheckBoxColumn x:Name="TagCheckBoxColumn" Header="Assign to Unit" Binding="{Binding ApplicableToUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HeaderStyle="{StaticResource TextDataGridHeader}" ElementStyle="{DynamicResource FancyCheckBox}" EditingElementStyle="{StaticResource FancyCheckBox}" IsReadOnly="False" Visibility="Collapsed">
+                                        <DataGridCheckBoxColumn.CellStyle>
+                                            <Style BasedOn="{StaticResource DataGridCell}" TargetType="{x:Type DataGridCell}">
+                                                <EventSetter Event="CheckBox.Checked" Handler="TagChecked"/>
+                                                <EventSetter Event="CheckBox.Unchecked" Handler="TagUnchecked"/>
+                                            </Style>
+                                        </DataGridCheckBoxColumn.CellStyle>
+                                    </DataGridCheckBoxColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </ScrollViewer>
+                                 
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
